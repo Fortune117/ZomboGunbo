@@ -1,0 +1,12 @@
+What should we define an entity as?
+	Every object in a game's scene is an entity (e.g. enemies, bullets, vehicles, etc.)
+	Every Entity consists of one or more components which add additional behavior or functionality. Therefore, the behavior of an entity can be changed at runtime by adding or removing components.
+
+So, the entity must be in the scene. So, what properties should all entities have?
+	position/velocity
+	type/id - basically, something to identify it.
+	a way to determine if the entity is valid
+	friction/movement/drag/etc - this may be kind of complicated, as we will probably want it to get data from the maps the object is on.
+	lighting - we don't need to worry about this for a while, but it is important.
+	collisions - might also be difficult. Need to figure out how exactly we want to handle these.
+
