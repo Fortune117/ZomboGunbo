@@ -19,10 +19,11 @@ public class GunBase : ItemBase {
     public float reloadTime { get; set; } //How long it takes to reload the weapon in seconds.
     public bool isReloading { get; set; }
     public float fastReloadSuccessFraction { get; set; }
+    public float reloadFraction;
     protected float reloadStartTime;
     protected bool canFastReload;
     protected bool attemptedFastReload;
-    protected float reloadFraction;
+
 
 
     public float fireConeStartAngle { get; set; } //The angle of the starting cone of fire in degrees.

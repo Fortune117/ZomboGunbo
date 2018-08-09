@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{5CAC19C9-D804-1F16-A6E9-C86C4F31E3F8}</ProjectGuid>
+    <ProjectGuid>{EFD4BD20-2C64-7738-9497-D9C2C6EA7F2B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -66,7 +66,7 @@
     <Compile Include="Assets\code\base\Sound.cs" />
     <Compile Include="Assets\code\camera\cameraHelper.cs" />
     <Compile Include="Assets\code\entities\Entity.cs" />
-    <Compile Include="Assets\code\entities\npc_base\NPC_Base.cs" />
+    <Compile Include="Assets\code\entities\npcs\NPCBase.cs" />
     <Compile Include="Assets\code\entities\player\Player.cs" />
     <Compile Include="Assets\code\hud\PlayerHUD.cs" />
     <Compile Include="Assets\code\items\ItemBase.cs" />
@@ -76,16 +76,16 @@
     <None Include="Assets\sounds\weapons\q009\license.txt" />
     <None Include="Assets\sounds\weapons\q009\readme.txt" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>E:/Unity Projects/Top Shooty Wooty/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>E:/Unity Projects/ZomboGunbo/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>E:/Unity Projects/Top Shooty Wooty/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>E:/Unity Projects/ZomboGunbo/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>E:/Unity Projects/Top Shooty Wooty/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>E:/Unity Projects/ZomboGunbo/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>E:/Unity Projects/Top Shooty Wooty/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>E:/Unity Projects/ZomboGunbo/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>E:/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -318,7 +318,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{F2647D07-22CD-8CB8-25FF-77F5F4BF044E}</Project>
+      <Project>{D93298F4-5B5E-1E52-B13F-D87D9C133584}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
   </ItemGroup>

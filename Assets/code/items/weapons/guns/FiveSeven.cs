@@ -12,7 +12,7 @@ public class FiveSeven : GunBase {
         magazineSize = maxMagazineSize = 20;
         reloadTime = 2;
         canFastReload = true;
-        fastReloadSuccessFraction = 0.5F; //The fractional cutoff for our fast reload. i.e. 10% of the reload time allows for fast reload.
+        fastReloadSuccessFraction = 0.1F; //The fractional cutoff for our fast reload. i.e. 10% of the reload time allows for fast reload.
         fireConeStartAngle = 40; //60 degrees start angle.
         fireConeEndAngle = 8; //20 degrees end angle.
         fireConeAnglePunchOnShot = 2.5F;

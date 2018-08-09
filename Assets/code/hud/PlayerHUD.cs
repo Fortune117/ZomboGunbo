@@ -6,13 +6,17 @@ using UnityEngine.UI;
 public class PlayerHUD : MonoBehaviour {
 
     public Player ply;
-    public Image aimBar1;
 
+    public Image aimBar1;
     private float bar1Length;
 
     public Image aimBar2;
-
     private float bar2Length;
+
+    public Text ammoText;
+    public Image reloadBar;
+    public Image fastReloadThreshold;
+    public Image reloadProgress;
 
 	// Use this for initialization
 	void Start () {
@@ -32,13 +36,20 @@ public class PlayerHUD : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-		if (ply.gun.isAiming)
+        UpdateAimBars();
+        UpdateAmmoText();
+        UpdateReloadBar();
+	}
+
+    public void UpdateAimBars()
+    {
+        if (ply.gun.isAiming)
         {
             aimBar1.CrossFadeAlpha(1, 0, true);
             aimBar2.CrossFadeAlpha(1, 0, true);
 
             float bar1Angle = ply.GetAimDirAngles() * Mathf.Rad2Deg + 90 + ply.gun.GetFireConeAngle() / 2;
-            aimBar1.transform.position = (Vector2)ply.transform.position + DegreeToVector2(bar1Angle)*bar1Length/4;
+            aimBar1.transform.position = (Vector2)ply.transform.position + DegreeToVector2(bar1Angle) * bar1Length / 4;
             aimBar1.transform.rotation = Quaternion.Euler(0, 0, bar1Angle);
 
             float bar2Angle = ply.GetAimDirAngles() * Mathf.Rad2Deg + 90 - ply.gun.GetFireConeAngle() / 2;
@@ -50,5 +61,30 @@ public class PlayerHUD : MonoBehaviour {
             aimBar1.CrossFadeAlpha(0, 0, true);
             aimBar2.CrossFadeAlpha(0, 0, true);
         }
-	}
+    }
+
+    public void UpdateAmmoText()
+    {
+        ammoText.text = ply.gun.magazineSize + "/" + ply.gun.maxMagazineSize;
+    }
+
+    public void UpdateReloadBar()
+    {
+        if (ply.gun.isReloading)
+        {
+            reloadBar.enabled = true;
+            fastReloadThreshold.enabled = true;
+            reloadProgress.enabled = true;
+
+            reloadProgress.transform.localPosition = new Vector2(reloadBar.rectTransform.rect.width * ply.gun.reloadFraction - reloadBar.rectTransform.rect.width/2, 0);
+            fastReloadThreshold.rectTransform.sizeDelta = new Vector2(reloadBar.rectTransform.sizeDelta.x * ply.gun.fastReloadSuccessFraction, fastReloadThreshold.rectTransform.sizeDelta.y);
+
+        }
+        else
+        {
+            reloadBar.enabled = false;
+            fastReloadThreshold.enabled = false;
+            reloadProgress.enabled = false;
+        }
+    }
 }
