@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZomboGunbo", "Assembly-CSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZomboGunbo", "Assembly-CSharp.csproj", "{EFD4BD20-2C64-7738-9497-D9C2C6EA7F2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZomboGunbo", "Assembly-CSharp-Editor-firstpass.csproj", "{D8E4E575-6A55-A225-0276-FCF2B7D0C54B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{EFD4BD20-2C64-7738-9497-D9C2C6EA7F2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFD4BD20-2C64-7738-9497-D9C2C6EA7F2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFD4BD20-2C64-7738-9497-D9C2C6EA7F2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8E4E575-6A55-A225-0276-FCF2B7D0C54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8E4E575-6A55-A225-0276-FCF2B7D0C54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8E4E575-6A55-A225-0276-FCF2B7D0C54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E4E575-6A55-A225-0276-FCF2B7D0C54B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19,12 +19,14 @@ public class GunBase : ItemBase {
     public float reloadTime { get; set; } //How long it takes to reload the weapon in seconds.
     public bool isReloading { get; set; }
     public float fastReloadSuccessFraction { get; set; }
+    [HideInInspector]
     public float reloadFraction;
+    [HideInInspector]
+    public bool attemptedFastReload;
+    [HideInInspector]
+    public bool failedFastReload;
     protected float reloadStartTime;
     protected bool canFastReload;
-    protected bool attemptedFastReload;
-
-
 
     public float fireConeStartAngle { get; set; } //The angle of the starting cone of fire in degrees.
     public float fireConeEndAngle { get; set; } //The angle of the cone of fire after aiming for a little bit.
@@ -40,6 +42,7 @@ public class GunBase : ItemBase {
     protected float fireConeAngleEasingValue;
     protected float aimStartTime;
 
+    public float bulletEffectGap;
 
     public Transform BulletTrailPrefab;
 
@@ -154,7 +157,7 @@ public class GunBase : ItemBase {
     {
         float desiredAng = Mathf.Min(fireConeAngle + fireConeAnglePunchOnShot, fireConeStartAngle);
         aimStartTime = Time.time - AntiEase((fireConeStartAngle - desiredAng) / (fireConeStartAngle - fireConeEndAngle)) * aimTime; //We're calculating the recoil like this so as to avoid having to directly change the fireConeAngle variable.
-        fireConeDelayStartTime = Time.time;                                                                                                               //In doing so, we can still get the effect of directly changing the angle value, but also get the effect of easing functions.
+        fireConeDelayStartTime = Time.time;                                                                                         //In doing so, we can still get the effect of directly changing the angle value, but also get the effect of easing functions.
         UpdateFireCone(); //Do the recoil here because of the fire cone delay.
         aimStartTime += +fireConeDelayOnShot; //Add the delay after we update the recoil.
 
@@ -187,7 +190,7 @@ public class GunBase : ItemBase {
 
     void Effects ( float angle )
     {
-        Instantiate(BulletTrailPrefab, ply.transform.position, Quaternion.Euler(0, 0, angle));
+        Instantiate(BulletTrailPrefab, ply.transform.position + (Vector3)ply.GetAimDir()*(ply.aimGap + bulletEffectGap), Quaternion.Euler(0, 0, angle));
         FindObjectOfType<AudioManager>().Play(fireSounds[Random.Range(0, fireSounds.Length)]);
     }
 
@@ -224,6 +227,7 @@ public class GunBase : ItemBase {
         isReloading = true;
         attemptedFastReload = false;
         OnStartReload();
+        ply.hud.OnStartReloading();
     }
 
     public bool CanAttemptFastReload()
@@ -235,8 +239,13 @@ public class GunBase : ItemBase {
     {
         if (Mathf.Abs( 0.5F-reloadFraction) <= fastReloadSuccessFraction/2)
         {
-            print("yeeeeeeeeeeeeeeet");
+            ply.hud.OnFastReloadSuccess();
             FinishReload();
+        }
+        else
+        {
+            ply.hud.OnFastReloadFail();
+            failedFastReload = true;
         }
         attemptedFastReload = true;
     }

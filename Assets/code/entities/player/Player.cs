@@ -10,7 +10,9 @@ public class Player : Entity
     public float sprintMul { get; set; }
     public float sprintAccelTime { get; set; }
 
-    private float turnRate { get; set; }
+    public float turnRate { get; set; }
+    public float headTurnRate { get; set; }
+    public float hipsTurnRate { get; set; }
 
     private bool hasInputs = false;
     private float moveAcceleration;
@@ -31,6 +33,9 @@ public class Player : Entity
     public float traumaShrinkTime = 1F; //How long it takes to lose all of our trauma in seconds.
 
     public GunBase gun;
+    public float aimGap;
+
+    public PlayerHUD hud;
 
     protected override void Initialise()
     {
@@ -39,7 +44,9 @@ public class Player : Entity
         mass = 80;
         friction = 5;
         moveSpeed = 12;
-        turnRate = 0.075F; //2*Mathf.PI;
+        turnRate = 0.079F; //2*Mathf.PI;
+        headTurnRate = 0.25F;
+        hipsTurnRate = 0.09F;
         accelTime = 0.3F;
         sprintMul = 1.5F;
         sprintAccelTime = 0.4F;
@@ -52,7 +59,7 @@ public class Player : Entity
     protected override void ThinkInternal()
     {
         UpdateTrauma();
-        AimAtCursor(); //Guess this works for now.
+       // AimAtCursor(); //We're going to change this to be handled by the players animation class.
         MoveInputs();
         WeaponInputs();
     }
@@ -60,16 +67,6 @@ public class Player : Entity
     protected void UpdateTrauma()
     {
         trauma -= traumaShrinkTime * Time.deltaTime;
-    }
-
-    public Vector2 GetCursorDir()
-    {
-        Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 pos2D = new Vector2(mPos.x, mPos.y);
-
-        Vector2 dir = (pos2D - (Vector2)transform.position).normalized;
-
-        return dir;
     }
 
     public Vector2 GetAimDir() //This returns a normalized 2D vector in the direction of where the player is looking.
@@ -91,21 +88,8 @@ public class Player : Entity
     protected void AimAtCursor()
     { 
         Vector2 dir = GetAimDir();
-
         float ang = -Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg + 95;
-
-        float calcTurnRate;
-        if ( turnRate == 0 )
-        {
-            calcTurnRate = 2 * Mathf.PI;
-        }
-        else
-        {
-            calcTurnRate = (2 * Mathf.PI / turnRate);
-        }
-
         transform.rotation = Quaternion.Euler(0, 0, Mathf.LerpAngle(transform.eulerAngles.z, ang, turnRate));
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, ang), calcTurnRate);
     }
 
     protected void MoveInputs()

@@ -68,6 +68,7 @@
     <Compile Include="Assets\code\entities\Entity.cs" />
     <Compile Include="Assets\code\entities\npcs\NPCBase.cs" />
     <Compile Include="Assets\code\entities\player\Player.cs" />
+    <Compile Include="Assets\code\entities\player\PlayerAnims.cs" />
     <Compile Include="Assets\code\hud\PlayerHUD.cs" />
     <Compile Include="Assets\code\items\ItemBase.cs" />
     <Compile Include="Assets\code\items\weapons\guns\FiveSeven.cs" />

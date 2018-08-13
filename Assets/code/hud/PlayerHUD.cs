@@ -14,9 +14,19 @@ public class PlayerHUD : MonoBehaviour {
     private float bar2Length;
 
     public Text ammoText;
+    public Image reloadBarOutline;
     public Image reloadBar;
     public Image fastReloadThreshold;
     public Image reloadProgress;
+
+    public float colorFadeTime;
+    public Color defaultColor;
+    public Color fastReloadSuccessColor;
+    public Color fastReloadFailColor;
+    public Color fastReloadThresholdDefaultColor;
+    public Color fastReloadThresholdFailColor;
+    public Color fastReloadProgressDefaultColor;
+    public Color fastReloadProgressFailColor;
 
 	// Use this for initialization
 	void Start () {
@@ -45,21 +55,21 @@ public class PlayerHUD : MonoBehaviour {
     {
         if (ply.gun.isAiming)
         {
-            aimBar1.CrossFadeAlpha(1, 0, true);
-            aimBar2.CrossFadeAlpha(1, 0, true);
+            aimBar1.enabled = true;
+            aimBar2.enabled = true;
 
             float bar1Angle = ply.GetAimDirAngles() * Mathf.Rad2Deg + 90 + ply.gun.GetFireConeAngle() / 2;
-            aimBar1.transform.position = (Vector2)ply.transform.position + DegreeToVector2(bar1Angle) * bar1Length / 4;
+            aimBar1.transform.position = (Vector2)ply.transform.position + ply.GetAimDir()*ply.aimGap + DegreeToVector2(bar1Angle) * bar1Length / 4;
             aimBar1.transform.rotation = Quaternion.Euler(0, 0, bar1Angle);
 
             float bar2Angle = ply.GetAimDirAngles() * Mathf.Rad2Deg + 90 - ply.gun.GetFireConeAngle() / 2;
-            aimBar2.transform.position = (Vector2)ply.transform.position + DegreeToVector2(bar2Angle) * bar2Length / 4;
+            aimBar2.transform.position = (Vector2)ply.transform.position + ply.GetAimDir()*ply.aimGap + DegreeToVector2(bar2Angle) * bar2Length / 4;
             aimBar2.transform.rotation = Quaternion.Euler(0, 0, bar2Angle);
         }
         else
         {
-            aimBar1.CrossFadeAlpha(0, 0, true);
-            aimBar2.CrossFadeAlpha(0, 0, true);
+            aimBar1.enabled = false;
+            aimBar2.enabled = false;
         }
     }
 
@@ -68,20 +78,40 @@ public class PlayerHUD : MonoBehaviour {
         ammoText.text = ply.gun.magazineSize + "/" + ply.gun.maxMagazineSize;
     }
 
+    public void OnStartReloading()
+    {
+        reloadBarOutline.color = defaultColor;
+        reloadProgress.color = fastReloadProgressDefaultColor;
+        fastReloadThreshold.color = fastReloadThresholdDefaultColor;
+    }
+
+    public void OnFastReloadFail()
+    {
+        reloadBarOutline.color = fastReloadFailColor;
+        reloadProgress.color = fastReloadProgressFailColor;
+        fastReloadThreshold.color = fastReloadThresholdFailColor;
+    }
+
+    public void OnFastReloadSuccess()
+    {
+        reloadBarOutline.color = fastReloadSuccessColor;
+    }
+
     public void UpdateReloadBar()
     {
         if (ply.gun.isReloading)
         {
+            reloadBarOutline.enabled = true;
             reloadBar.enabled = true;
             fastReloadThreshold.enabled = true;
             reloadProgress.enabled = true;
 
             reloadProgress.transform.localPosition = new Vector2(reloadBar.rectTransform.rect.width * ply.gun.reloadFraction - reloadBar.rectTransform.rect.width/2, 0);
             fastReloadThreshold.rectTransform.sizeDelta = new Vector2(reloadBar.rectTransform.sizeDelta.x * ply.gun.fastReloadSuccessFraction, fastReloadThreshold.rectTransform.sizeDelta.y);
-
         }
         else
         {
+            reloadBarOutline.enabled = false;
             reloadBar.enabled = false;
             fastReloadThreshold.enabled = false;
             reloadProgress.enabled = false;
