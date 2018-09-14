@@ -22,7 +22,7 @@ public class cameraHelper : MonoBehaviour {
         float x = targ.position.x + maxOffset * cameraShake * Random.Range(-1F, 1F);
         float y = targ.position.y + maxOffset * cameraShake * Random.Range(-1F, 1F);
         transform.rotation = Quaternion.Euler(new Vector3(startRotation.x, startRotation.y, startRotation.z + maxAngle * cameraShake * Random.Range(-1F, 1F)));
-        transform.position = new Vector3(x, y, transform.position.z);
+        transform.position = Vector3.Lerp(transform.position, new Vector3(x, y, transform.position.z), 0.2F);
 	}
 	
 }

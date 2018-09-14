@@ -11,8 +11,10 @@ $RECYCLE.BIN/
 #Anima2D
 Assets/plugins
 Library
+Library\
 Temp
 obj
+.vs
 
 # Windows Installer files
 *.cab

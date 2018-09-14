@@ -23,6 +23,8 @@ public class FiveSeven : GunBase {
         isReloading = false;
         automatic = true;
 
+        imageSprite = Resources.Load<Sprite>("Assets/resources/sprites/survivor spine/images/pistol.png");
+
     }
 
 }

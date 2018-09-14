@@ -9,10 +9,17 @@ public class PlayerAnims : MonoBehaviour {
     public Transform torso;
     public Transform hips;
 
+    private Animator hipAnim;
+
     public float maxHeadOffset; //Maximum difference between our heads rotation and our bodies rotation.
     public float maxHipsOffset; //Maximum difference between hip rotation and body rotation.
 
     public bool walkingBackwards = false;
+
+    protected void Start()
+    {
+        hipAnim = hips.GetComponent<Animator>();
+    }
 
     protected void Update()
     {
@@ -49,10 +56,12 @@ public class PlayerAnims : MonoBehaviour {
         if (vel.magnitude < 0.2)
         {
             dir = ply.GetAimDir();
+            hipAnim.SetFloat("moveSpeed", 0);
         }
         else
         {
             dir = vel.normalized;
+            hipAnim.SetFloat("moveSpeed", vel.magnitude);
         }
 
         float ang = -Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg + 95; //This is our target angle, but we're going to want to limit how far our head can rotate.
@@ -61,12 +70,15 @@ public class PlayerAnims : MonoBehaviour {
         if (Mathf.Abs(dAngle) > maxHipsOffset)
         {
             //ang = torso.eulerAngles.z - Mathf.Sign(dAngle) * maxHipsOffset;
-            ang = -ang;
+            //ang = -ang;
+            ang = -Mathf.Atan2(-dir.x, -dir.y) * Mathf.Rad2Deg + 95;
             walkingBackwards = true;
+            hipAnim.SetBool("walkingBackwards", walkingBackwards);
         }
         else
         {
             walkingBackwards = false;
+            hipAnim.SetBool("walkingBackwards", walkingBackwards);
         }
 
         hips.rotation = Quaternion.Euler(0, 0, Mathf.LerpAngle(hips.eulerAngles.z, ang, ply.hipsTurnRate));

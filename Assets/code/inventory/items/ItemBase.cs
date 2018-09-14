@@ -30,6 +30,12 @@ public abstract class ItemBase : MonoBehaviour {
 
     public int itemMaxStackSize { get; set; } //The maximum size for a stack of items.
 
+    public Sprite imageSprite { get; set; }
+
+    public Vector2 inventoryPosition { get; set; }
+
+    public Vector2 invetoryDimensions { get; set; }
+
 
 	// Use this for initialization
 	protected virtual void Start () {
@@ -41,6 +47,9 @@ public abstract class ItemBase : MonoBehaviour {
         itemWeight = 0F;
         itemCanStack = false;
         itemMaxStackSize = 1;
+        imageSprite = Resources.Load<Sprite>("Assets/resources/sprites/survivor spine/images/rifle.png");
+
+        invetoryDimensions = new Vector2(0, 0);
 
         ItemInitialiseInternal(); //We can use these so we don't need to be overwritng the start function.
         ItemInitialise();

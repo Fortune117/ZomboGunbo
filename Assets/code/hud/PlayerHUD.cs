@@ -49,6 +49,8 @@ public class PlayerHUD : MonoBehaviour {
         UpdateAimBars();
         UpdateAmmoText();
         UpdateReloadBar();
+
+        UpdateInventory();
 	}
 
     public void UpdateAimBars()
@@ -116,5 +118,10 @@ public class PlayerHUD : MonoBehaviour {
             fastReloadThreshold.enabled = false;
             reloadProgress.enabled = false;
         }
+    }
+
+    public void UpdateInventory()
+    {
+
     }
 }

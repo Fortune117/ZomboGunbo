@@ -35,6 +35,8 @@ public class Player : Entity
     public GunBase gun;
     public float aimGap;
 
+    public PlayerInventory inv;
+
     public PlayerHUD hud;
 
     protected override void Initialise()
@@ -52,6 +54,10 @@ public class Player : Entity
         sprintAccelTime = 0.4F;
         trauma = 0;
 
+        inv.invData.width = 10;
+        inv.invData.height = 10;
+        inv.invData.weightLimit = 10;
+
         moveAcceleration = (moveSpeed / accelTime);
 
     }
@@ -62,6 +68,7 @@ public class Player : Entity
        // AimAtCursor(); //We're going to change this to be handled by the players animation class.
         MoveInputs();
         WeaponInputs();
+        UIInputs();
     }
 
     protected void UpdateTrauma()
@@ -178,6 +185,21 @@ public class Player : Entity
             else if (gun.CanReload())
             {
                 gun.StartReload();
+            }
+        }
+    }
+
+    protected void UIInputs()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (inv.isOpen)
+            {
+                inv.Close();
+            }
+            else
+            {
+                inv.Open();
             }
         }
     }
