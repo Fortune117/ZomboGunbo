@@ -28,7 +28,6 @@ public abstract class InventoryBase : MonoBehaviour {
         }
     }
 
-
     void Start () {
         InitialiseInternal();
         Initialise();
@@ -55,7 +54,7 @@ public abstract class InventoryBase : MonoBehaviour {
 
     protected virtual void InitialiseInternal()
     {
-       invData = new inventoryData(10, 10, 10);
+      invData = new inventoryData(10, 10, 10);
     }
 
     protected virtual void Initialise()
@@ -90,7 +89,7 @@ public abstract class InventoryBase : MonoBehaviour {
     public void AddInventoryItem( ItemBase item )
     {
         inventoryList.Add(item);
-        item.inventoryPosition = new Vector2(0, 0); // FindFirstFreeSpotForItem( item );
+        item.inventoryPosition = new Vector2(2, 3); // FindFirstFreeSpotForItem( item );
     }
 
     public void RemoveInventoryItem()
@@ -105,9 +104,10 @@ public abstract class InventoryBase : MonoBehaviour {
 
     public struct inventoryData
     {
-        public float width, height, weightLimit;
+        public int width, height;
+        public float weightLimit;
 
-        public inventoryData( float w, float h, float wLimit )
+        public inventoryData( int w, int h, float wLimit )
         {
             width = w;
             height = h;

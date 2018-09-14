@@ -27,6 +27,7 @@ public class GunBase : ItemBase {
     public bool failedFastReload;
     protected float reloadStartTime;
     protected bool canFastReload;
+    protected float fastReloadFailTimeMultiplier; //Add this fraction of the default reload time to the reload duration left on a failed fast reload.
 
     public float fireConeStartAngle { get; set; } //The angle of the starting cone of fire in degrees.
     public float fireConeEndAngle { get; set; } //The angle of the cone of fire after aiming for a little bit.
@@ -71,6 +72,7 @@ public class GunBase : ItemBase {
         reloadTime = 2;
         canFastReload = true;
         fastReloadSuccessFraction = 0.1F; //The fractional cutoff for our fast reload. i.e. 10% of the reload time allows for fast reload.
+        fastReloadFailTimeMultiplier = 1.5F;
         fireConeStartAngle = 60; //60 degrees start angle.
         fireConeEndAngle = 10; //20 degrees end angle.
         fireConeAnglePunchOnShot = 6;
@@ -144,12 +146,22 @@ public class GunBase : ItemBase {
 
        if (isReloading)
         {
-            if (Time.time > reloadStartTime + reloadTime)
+            if (attemptedFastReload && failedFastReload)
             {
-                FinishReload();
+                if (Time.time > reloadStartTime + (reloadTime * fastReloadFailTimeMultiplier))
+                {
+                    FinishReload();
+                }
+                reloadFraction = (Time.time - reloadStartTime) / (reloadTime * fastReloadFailTimeMultiplier);
             }
-
-            reloadFraction = (Time.time - reloadStartTime) / reloadTime;
+            else
+            {
+                if (Time.time > reloadStartTime + reloadTime)
+                {
+                    FinishReload();
+                }
+                reloadFraction = (Time.time - reloadStartTime) / reloadTime;
+            }
         }
     }
 

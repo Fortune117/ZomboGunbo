@@ -54,10 +54,6 @@ public class Player : Entity
         sprintAccelTime = 0.4F;
         trauma = 0;
 
-        inv.invData.width = 10;
-        inv.invData.height = 10;
-        inv.invData.weightLimit = 10;
-
         moveAcceleration = (moveSpeed / accelTime);
 
     }

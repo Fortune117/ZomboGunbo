@@ -13,6 +13,7 @@ public class MP5 : GunBase {
         reloadTime = 2;
         canFastReload = true;
         fastReloadSuccessFraction = 0.08F; //The fractional cutoff for our fast reload. i.e. 10% of the reload time allows for fast reload.
+        fastReloadFailTimeMultiplier = 1.5F;
         fireConeStartAngle = 50; //60 degrees start angle.
         fireConeEndAngle = 10; //20 degrees end angle.
         fireConeAnglePunchOnShot = 1.0F;
@@ -22,6 +23,8 @@ public class MP5 : GunBase {
         isAiming = false;
         isReloading = false;
         automatic = true;
+
+        invetoryDimensions = new Vector2(2, 2);
 
     }
 

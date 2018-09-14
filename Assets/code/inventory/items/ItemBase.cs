@@ -49,7 +49,7 @@ public abstract class ItemBase : MonoBehaviour {
         itemMaxStackSize = 1;
         imageSprite = Resources.Load<Sprite>("Assets/resources/sprites/survivor spine/images/rifle.png");
 
-        invetoryDimensions = new Vector2(0, 0);
+        invetoryDimensions = new Vector2(1, 1);
 
         ItemInitialiseInternal(); //We can use these so we don't need to be overwritng the start function.
         ItemInitialise();

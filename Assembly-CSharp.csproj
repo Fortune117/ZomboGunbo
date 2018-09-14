@@ -69,6 +69,7 @@
     <Compile Include="Assets\code\entities\npcs\NPCBase.cs" />
     <Compile Include="Assets\code\entities\player\Player.cs" />
     <Compile Include="Assets\code\entities\player\PlayerAnims.cs" />
+    <Compile Include="Assets\code\hud\InventoryPanel.cs" />
     <Compile Include="Assets\code\hud\PlayerHUD.cs" />
     <Compile Include="Assets\code\inventory\items\ItemBase.cs" />
     <Compile Include="Assets\code\inventory\items\weapons\guns\FiveSeven.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Assets\code\inventory\storagehandler\InventoryBase.cs" />
     <Compile Include="Assets\code\inventory\storagehandler\PlayerInventory.cs" />
     <Compile Include="Assets\code\MoveTrail.cs" />
-    <Compile Include="Assets\InventoryPanel.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />

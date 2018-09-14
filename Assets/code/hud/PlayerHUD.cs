@@ -14,12 +14,15 @@ public class PlayerHUD : MonoBehaviour {
     private float bar2Length;
 
     public Text ammoText;
-    public Image reloadBarOutline;
-    public Image reloadBar;
-    public Image fastReloadThreshold;
-    public Image reloadProgress;
+    public Image reloadBarOutline; //The outline for the bar.
+    public Image reloadBar; //The reload bar.
+    public Image fastReloadThreshold; //The image we use for the fast reload success zone.
+    public Image reloadProgress; //The little marker we use for progress along our reload.
+    public float reloadBarShake; //Shake for the reload bar.
+    public float reloadBarShakeOnFail; //How much shake we get when the bar fails.
+    public float reloadBarMaxOffset; //The maximum offset for our shaking.
 
-    public float colorFadeTime;
+    public float colorFadeTime; //How long it takes to fade between colors.
     public Color defaultColor;
     public Color fastReloadSuccessColor;
     public Color fastReloadFailColor;
@@ -85,6 +88,7 @@ public class PlayerHUD : MonoBehaviour {
         reloadBarOutline.color = defaultColor;
         reloadProgress.color = fastReloadProgressDefaultColor;
         fastReloadThreshold.color = fastReloadThresholdDefaultColor;
+        reloadBarShake = 0;
     }
 
     public void OnFastReloadFail()
@@ -92,6 +96,7 @@ public class PlayerHUD : MonoBehaviour {
         reloadBarOutline.color = fastReloadFailColor;
         reloadProgress.color = fastReloadProgressFailColor;
         fastReloadThreshold.color = fastReloadThresholdFailColor;
+        reloadBarShake = reloadBarShakeOnFail;
     }
 
     public void OnFastReloadSuccess()
@@ -108,6 +113,7 @@ public class PlayerHUD : MonoBehaviour {
             fastReloadThreshold.enabled = true;
             reloadProgress.enabled = true;
 
+            reloadBarOutline.transform.localPosition = new Vector2( 0, -70) + Vector2.Lerp(reloadBarOutline.transform.position, new Vector2(Random.Range(-reloadBarMaxOffset, reloadBarMaxOffset), Random.Range(-reloadBarMaxOffset, reloadBarMaxOffset)) * (reloadBarShake * reloadBarShake), 0.08F); //This needs fixing, but it's fine for now.
             reloadProgress.transform.localPosition = new Vector2(reloadBar.rectTransform.rect.width * ply.gun.reloadFraction - reloadBar.rectTransform.rect.width/2, 0);
             fastReloadThreshold.rectTransform.sizeDelta = new Vector2(reloadBar.rectTransform.sizeDelta.x * ply.gun.fastReloadSuccessFraction, fastReloadThreshold.rectTransform.sizeDelta.y);
         }
@@ -118,6 +124,8 @@ public class PlayerHUD : MonoBehaviour {
             fastReloadThreshold.enabled = false;
             reloadProgress.enabled = false;
         }
+
+        reloadBarShake -= reloadBarShake * Time.deltaTime;
     }
 
     public void UpdateInventory()
