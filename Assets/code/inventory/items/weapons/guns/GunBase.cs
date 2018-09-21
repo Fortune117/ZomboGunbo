@@ -13,8 +13,8 @@ public class GunBase : ItemBase {
 
     public string[] fireSounds;
 
-    public float magazineSize { get; set; } //How many bullets are in the weapons magazine.
-    public float maxMagazineSize { get; set; } //The maximum number of bullets in the weapons magazine.
+    public int magazineSize { get; set; } //How many bullets are in the weapons magazine.
+    public int maxMagazineSize { get; set; } //The maximum number of bullets in the weapons magazine.
 
     public float reloadTime { get; set; } //How long it takes to reload the weapon in seconds.
     public bool isReloading { get; set; }
@@ -44,46 +44,62 @@ public class GunBase : ItemBase {
     protected float aimStartTime;
 
     public float bulletEffectGap;
-
     public Transform BulletTrailPrefab;
 
+    public Vector2 firePos;
     public Player ply;
+
+    public GunScript gunData;
 
     protected override void Start()
     {
 
         base.Start();
 
+        isAiming = false;
+        isReloading = false;
         nextShotTime = 0;
         reloadStartTime = 0;
-        fireDelay = 1 / roundsPerSecond;
-        fireConeAngle = fireConeStartAngle;
         attemptedFastReload = false;
+
+        InitialiseGunData(); //Load our gun data.
 
     }
 
-    // Use this for initialization
-    protected override void ItemInitialiseInternal()
+    public void OnValidate()
+    {   
+        if (gunData != null)
+        {
+            InitialiseGunData(); //Reload our gun data from our script.
+            print("uggle wuggle");
+        }
+
+    }
+
+    public void InitialiseGunData()
     {
-
-        damage = 1F;
-        roundsPerSecond = 10;
-        magazineSize = maxMagazineSize = 15;
-        reloadTime = 2;
-        canFastReload = true;
-        fastReloadSuccessFraction = 0.1F; //The fractional cutoff for our fast reload. i.e. 10% of the reload time allows for fast reload.
-        fastReloadFailTimeMultiplier = 1.5F;
-        fireConeStartAngle = 60; //60 degrees start angle.
-        fireConeEndAngle = 10; //20 degrees end angle.
-        fireConeAnglePunchOnShot = 6;
-        traumaValueOnFire = 0.1F;
-        fireConeDelayOnShot = 0.1F;
-        fireConeDelayStartTime = 0;
-        aimTime = 3; //How long it takes to go from the start angle to end angle.
-        isAiming = false;
-        isReloading = false;
-        automatic = true;
-
+        if(gunData != null)
+        {
+            damage = gunData.damage;
+            automatic = gunData.automatic;
+            roundsPerSecond = gunData.roundsPerSecond;
+            fireDelay = 1 / roundsPerSecond;
+            maxMagazineSize = gunData.maxMagazineSize;
+            magazineSize = maxMagazineSize;
+            reloadTime = gunData.reloadTime;
+            fastReloadSuccessFraction = gunData.fastReloadSuccessFraction;
+            canFastReload = gunData.canFastReload;
+            fastReloadFailTimeMultiplier = gunData.fastReloadFailMultiplier;
+            fireConeStartAngle = gunData.fireConeStartAngle;
+            fireConeEndAngle = gunData.fireConeEndAngle;
+            fireConeAngle = fireConeStartAngle;
+            aimTime = gunData.aimTime;
+            fireConeAnglePunchOnShot = gunData.fireConeAnglePunchOnShot;
+            traumaValueOnFire = gunData.traumaValueOnFire;
+            fireConeDelayOnShot = gunData.fireConeDelayOnShot;
+            inventoryDimensions = gunData.inventoryDimensions;
+            gunData.valid = true;
+        }
     }
 
     //Aiming is what happens when the player holds down mouse 2, by default. This will allow us to do some fancy shit.
@@ -135,16 +151,33 @@ public class GunBase : ItemBase {
 
     protected override void ItemThink()
     {
-       if (isAiming)
+        DataThink();
+        AimThink();
+        ReloadThink();
+
+    }
+
+    protected void DataThink()
+    {
+        if (gunData != null && gunData.valid == false)
+            InitialiseGunData();
+    }
+
+    protected void AimThink()
+    {
+        if (isAiming)
         {
             if (Time.time >= fireConeDelayStartTime + fireConeDelayOnShot)
             {
                 UpdateFireCone();
             }
-        
-        }
 
-       if (isReloading)
+        }
+    }
+
+    protected void ReloadThink()
+    {
+        if (isReloading)
         {
             if (attemptedFastReload && failedFastReload)
             {
@@ -202,8 +235,8 @@ public class GunBase : ItemBase {
 
     void Effects ( float angle )
     {
-        Instantiate(BulletTrailPrefab, ply.transform.position + (Vector3)ply.GetAimDir()*(ply.aimGap + bulletEffectGap), Quaternion.Euler(0, 0, angle));
-        FindObjectOfType<AudioManager>().Play(fireSounds[Random.Range(0, fireSounds.Length)]);
+        GameObject.Instantiate(BulletTrailPrefab, ply.transform.position + (Vector3)ply.GetAimDir()*(ply.aimGap + bulletEffectGap), Quaternion.Euler(0, 0, angle));
+        GameObject.FindObjectOfType<AudioManager>().Play(fireSounds[Random.Range(0, fireSounds.Length)]);
     }
 
     public void FireBullet( float angle )
@@ -218,12 +251,10 @@ public class GunBase : ItemBase {
 
     public virtual void OnStartReload()
     {
-        print("reload started");
     }
 
     public virtual void OnReloadFinished()
     {
-        print("reload finished");
     }
 
     public void FinishReload()
@@ -235,6 +266,7 @@ public class GunBase : ItemBase {
 
     public void StartReload()
     {
+        reloadFraction = 0;
         reloadStartTime = Time.time;
         isReloading = true;
         attemptedFastReload = false;
@@ -256,8 +288,8 @@ public class GunBase : ItemBase {
         }
         else
         {
-            ply.hud.OnFastReloadFail();
             failedFastReload = true;
+            ply.hud.OnFastReloadFail();
         }
         attemptedFastReload = true;
     }

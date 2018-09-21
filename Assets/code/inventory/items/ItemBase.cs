@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ItemBase : MonoBehaviour {
+public abstract class ItemBase : MonoBehaviour{
 
     /* How exactly do we want to do items?
      * Well, I don't want level restrictions on items. I think, a large open world where it gets progressively more dangerous the further out you go from your starting base would be ideal.
@@ -30,11 +30,11 @@ public abstract class ItemBase : MonoBehaviour {
 
     public int itemMaxStackSize { get; set; } //The maximum size for a stack of items.
 
-    public Sprite imageSprite { get; set; }
+    public Sprite imageSprite { get; set; } //The sprite for the item.
 
-    public Vector2 inventoryPosition { get; set; }
+    public Vector2 inventoryPosition { get; set; } //The position of the item in the players inventory.
 
-    public Vector2 invetoryDimensions { get; set; }
+    public Vector2 inventoryDimensions { get; set; } //The size of the item in the inventory.
 
 
 	// Use this for initialization
@@ -49,7 +49,8 @@ public abstract class ItemBase : MonoBehaviour {
         itemMaxStackSize = 1;
         imageSprite = Resources.Load<Sprite>("Assets/resources/sprites/survivor spine/images/rifle.png");
 
-        invetoryDimensions = new Vector2(1, 1);
+        inventoryDimensions = new Vector2(1, 1);
+        //inventoryPosition = new Vector2(-1, -1);
 
         ItemInitialiseInternal(); //We can use these so we don't need to be overwritng the start function.
         ItemInitialise();

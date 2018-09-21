@@ -13,7 +13,7 @@ public class cameraHelper : MonoBehaviour {
     private Quaternion startRotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
 	// Use this for initialization
-	void Update () {
+	void LateUpdate () {
 
         Transform targ = ply.transform;
 

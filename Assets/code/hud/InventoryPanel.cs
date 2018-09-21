@@ -102,11 +102,25 @@ public class InventoryPanel : MonoBehaviour {
 
             ItemUI.transform.localPosition = new Vector2(xpos, -ypos); //The ypos is negative here due to unity being silly.
 
-            float xSize = invItem.invetoryDimensions.x * GridCellSize + Mathf.Max(invItem.invetoryDimensions.x - 1, 0) * gridLayout.spacing.x;
-            float ySize = invItem.invetoryDimensions.y * GridCellSize + Mathf.Max(invItem.invetoryDimensions.y - 1, 0) * gridLayout.spacing.y;
+            float xSize = invItem.inventoryDimensions.x * GridCellSize + Mathf.Max(invItem.inventoryDimensions.x - 1, 0) * gridLayout.spacing.x;
+            float ySize = invItem.inventoryDimensions.y * GridCellSize + Mathf.Max(invItem.inventoryDimensions.y - 1, 0) * gridLayout.spacing.y;
             print("X Size: " + xSize);
             ItemUI.GetComponent<RectTransform>().sizeDelta = new Vector2(xSize, ySize);
+            ItemUI.GetComponent<InventoryItemUI>().invDimensions = invItem.inventoryDimensions;
+            ItemUI.GetComponent<InventoryItemUI>().invPosition = invItem.inventoryPosition;
+            ItemUI.GetComponent<InventoryItemUI>().invPanel = this;
         }
     }
 
+    public ItemBase GetItemAtPosition( Vector2 pos )
+    {
+        foreach (ItemBase invItem in inventory.inventoryList)
+        {
+            if (invItem.inventoryPosition == pos )
+            {
+                return invItem;
+            }
+        }
+        return null;
+    }
 }

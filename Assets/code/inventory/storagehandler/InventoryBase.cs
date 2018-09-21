@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public abstract class InventoryBase : MonoBehaviour {
 
@@ -72,13 +73,78 @@ public abstract class InventoryBase : MonoBehaviour {
     {
     }
 
-    public Vector2 FindFirstFreeSpotForItem( ItemBase item )
+    //We're going to automaticallly add items to the inventory using this function.
+    //We want to sort from left to right, filling coloumns first.
+    public Vector2 FindFirstFreeSpotForItem( ItemBase item ) 
     {
-        for (int xPos = 1; xPos <= invData.width; xPos++)
+        int maxXPos = invData.width - 1;
+        int maxYPos = invData.height - 1;
+
+        bool[,] takenSpaces = new bool[invData.width, invData.height];
+
+        int itemWidth, itemHeight;
+        int itemX, itemY;
+
+        foreach (ItemBase invItem in inventoryList)
         {
-            
+            Vector2 itemPos = invItem.inventoryPosition;
+            itemX = (int)itemPos.x;
+            itemY = (int)itemPos.y;
+            itemWidth = (int)invItem.inventoryDimensions.x;
+            itemHeight = (int)invItem.inventoryDimensions.y;
+
+            if ((invItem.inventoryPosition.x < 0 || invItem.inventoryPosition.y < 0) || (invItem.inventoryPosition.x + invItem.inventoryDimensions.x - 1 > maxXPos || invItem.inventoryPosition.y + invItem.inventoryDimensions.y - 1 > maxYPos))
+            {
+                continue;
+            }
+
+            for (int x = 0; x < itemWidth; x++)
+            {
+                for (int y = 0; y < itemHeight; y++)
+                {
+                    takenSpaces[itemX + x, itemY + y] = true;
+                }
+            }
         }
-        return new Vector2(0, 0);
+
+        itemWidth = (int)item.inventoryDimensions.x;
+        itemHeight = (int)item.inventoryDimensions.y;
+
+        Vector2 suitablePos = -Vector2.one;
+
+        for (int xPos = 0; xPos < invData.width; xPos++)
+        {
+            for (int yPos = 0; yPos < invData.height; yPos++)  
+            {
+                if (!takenSpaces[xPos,yPos]) //If the space at xPos,yPos on the inventory grid isn't taken, check to see if the item fits.
+                {
+                    for (int xWidth = 0; xWidth < itemWidth; xWidth++) //Since items must be at least 1x1, we could skip the check at 0. But! If we are only 1 x unit across, it would skip the y check, when y could be larger than 1. So start at 0.
+                    {
+                        for (int yHeight = 1; yHeight < itemHeight; yHeight++) //Now here, it doesn't matter.
+                        {
+                            if(xPos + xWidth > maxXPos || yPos + yHeight > maxYPos)
+                            {
+                                goto DidntFit;
+                            }
+
+                            if (takenSpaces[xPos+xWidth,yPos+yHeight]) //If one of the spots we'd need to occupy is taken, then we get the heckle out of dodge.
+                            {
+                                goto DidntFit;
+                            }
+
+                            if (xWidth == itemWidth-1 && yHeight == yHeight-1)
+                            {
+                                return new Vector2(xPos, yPos);
+                            }
+                        }
+                    }
+                    return new Vector2(xPos, yPos); //If we skipped the loops for dimensions, that means our dimensions are one so we must fit.
+                }
+                DidntFit:;
+            }
+        }
+        print("Inventory is Full");
+        return -Vector2.one;
     }
 
     public void SortInventory()
@@ -88,13 +154,26 @@ public abstract class InventoryBase : MonoBehaviour {
 
     public void AddInventoryItem( ItemBase item )
     {
-        inventoryList.Add(item);
-        item.inventoryPosition = new Vector2(2, 3); // FindFirstFreeSpotForItem( item );
+        Vector2 invPos = FindFirstFreeSpotForItem(item);
+        if (!(invPos == -Vector2.one))
+        {
+            item.inventoryPosition = invPos;
+            inventoryList.Add(item);
+        }
     }
 
-    public void RemoveInventoryItem()
+    public void AddInventoryItemForced(ItemBase item)
     {
+        if(item.inventoryPosition == null)
+        {
+            item.inventoryPosition = new Vector2(0, 0);
+        }
+        inventoryList.Add(item);
+    }
 
+    public void RemoveInventoryItem( ItemBase item )
+    {
+        inventoryList.Remove(item);
     }
 
     public void MoveItem( ItemBase item, Vector2 newpos )
