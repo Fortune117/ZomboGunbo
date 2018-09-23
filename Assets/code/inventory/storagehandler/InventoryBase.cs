@@ -80,37 +80,10 @@ public abstract class InventoryBase : MonoBehaviour {
         int maxXPos = invData.width - 1;
         int maxYPos = invData.height - 1;
 
-        bool[,] takenSpaces = new bool[invData.width, invData.height];
+        bool[,] takenSpaces = GetInventoryTakenSpacesMatrix();
 
-        int itemWidth, itemHeight;
-        int itemX, itemY;
-
-        foreach (ItemBase invItem in inventoryList)
-        {
-            Vector2 itemPos = invItem.inventoryPosition;
-            itemX = (int)itemPos.x;
-            itemY = (int)itemPos.y;
-            itemWidth = (int)invItem.inventoryDimensions.x;
-            itemHeight = (int)invItem.inventoryDimensions.y;
-
-            if ((invItem.inventoryPosition.x < 0 || invItem.inventoryPosition.y < 0) || (invItem.inventoryPosition.x + invItem.inventoryDimensions.x - 1 > maxXPos || invItem.inventoryPosition.y + invItem.inventoryDimensions.y - 1 > maxYPos))
-            {
-                continue;
-            }
-
-            for (int x = 0; x < itemWidth; x++)
-            {
-                for (int y = 0; y < itemHeight; y++)
-                {
-                    takenSpaces[itemX + x, itemY + y] = true;
-                }
-            }
-        }
-
-        itemWidth = (int)item.inventoryDimensions.x;
-        itemHeight = (int)item.inventoryDimensions.y;
-
-        Vector2 suitablePos = -Vector2.one;
+        int itemWidth = (int)item.inventoryDimensions.x;
+        int itemHeight = (int)item.inventoryDimensions.y;
 
         for (int xPos = 0; xPos < invData.width; xPos++)
         {
@@ -162,7 +135,7 @@ public abstract class InventoryBase : MonoBehaviour {
         }
     }
 
-    public void AddInventoryItemForced(ItemBase item)
+    public void AddInventoryItemForced( ItemBase item )
     {
         if(item.inventoryPosition == null)
         {
@@ -176,9 +149,164 @@ public abstract class InventoryBase : MonoBehaviour {
         inventoryList.Remove(item);
     }
 
+    public void DropInventoryItem( ItemBase item )
+    {
+        RemoveInventoryItem(item);
+    }
+
     public void MoveItem( ItemBase item, Vector2 newpos )
     {
 
+    }
+
+    public bool[,] GetInventoryTakenSpacesMatrix()
+    {
+        bool[,] takenSpaces = new bool[invData.width, invData.height];
+
+        int itemWidth, itemHeight;
+        int itemX, itemY;
+
+        foreach (ItemBase invItem in inventoryList)
+        {
+            int maxXPos = invData.width - 1;
+            int maxYPos = invData.height - 1;
+
+            Vector2 itemPos = invItem.inventoryPosition;
+            itemX = (int)itemPos.x;
+            itemY = (int)itemPos.y;
+            itemWidth = (int)invItem.inventoryDimensions.x;
+            itemHeight = (int)invItem.inventoryDimensions.y;
+
+            if ((invItem.inventoryPosition.x < 0 || invItem.inventoryPosition.y < 0) || (invItem.inventoryPosition.x + invItem.inventoryDimensions.x - 1 > maxXPos || invItem.inventoryPosition.y + invItem.inventoryDimensions.y - 1 > maxYPos))
+            {
+                continue;
+            }
+
+            for (int x = 0; x < itemWidth; x++)
+            {
+                for (int y = 0; y < itemHeight; y++)
+                {
+                    takenSpaces[itemX + x, itemY + y] = true;
+                }
+            }
+        }
+        return takenSpaces;
+    }
+
+    public bool[,] GetInventoryTakenSpacesMatrix(ItemBase filterItem) //We'll add an overload to this so that we can ignore items in this table if we need too.
+    {
+        bool[,] takenSpaces = new bool[invData.width, invData.height];
+
+        int itemWidth, itemHeight;
+        int itemX, itemY;
+
+        foreach (ItemBase invItem in inventoryList)
+        {
+            if (invItem == filterItem)
+                continue;
+
+            int maxXPos = invData.width - 1;
+            int maxYPos = invData.height - 1;
+
+            Vector2 itemPos = invItem.inventoryPosition;
+            itemX = (int)itemPos.x;
+            itemY = (int)itemPos.y;
+            itemWidth = (int)invItem.inventoryDimensions.x;
+            itemHeight = (int)invItem.inventoryDimensions.y;
+
+            if ((invItem.inventoryPosition.x < 0 || invItem.inventoryPosition.y < 0) || (invItem.inventoryPosition.x + invItem.inventoryDimensions.x - 1 > maxXPos || invItem.inventoryPosition.y + invItem.inventoryDimensions.y - 1 > maxYPos))
+            {
+                continue;
+            }
+
+            for (int x = 0; x < itemWidth; x++)
+            {
+                for (int y = 0; y < itemHeight; y++)
+                {
+                    takenSpaces[itemX + x, itemY + y] = true;
+                }
+            }
+        }
+        return takenSpaces;
+    }
+
+    public bool[,] GetInventoryTakenSpacesMatrix(ItemBase[] filterItemList) //We'll add another overload for a table of items to fitler.
+    {
+        bool[,] takenSpaces = new bool[invData.width, invData.height];
+
+        int itemWidth, itemHeight;
+        int itemX, itemY;
+
+        foreach (ItemBase invItem in inventoryList)
+        {
+            foreach (ItemBase filterItem in filterItemList)
+                if (filterItem == invItem)
+                    goto ItemWasFiltered;
+
+            int maxXPos = invData.width - 1;
+            int maxYPos = invData.height - 1;
+
+            Vector2 itemPos = invItem.inventoryPosition;
+            itemX = (int)itemPos.x;
+            itemY = (int)itemPos.y;
+            itemWidth = (int)invItem.inventoryDimensions.x;
+            itemHeight = (int)invItem.inventoryDimensions.y;
+
+            if ((invItem.inventoryPosition.x < 0 || invItem.inventoryPosition.y < 0) || (invItem.inventoryPosition.x + invItem.inventoryDimensions.x - 1 > maxXPos || invItem.inventoryPosition.y + invItem.inventoryDimensions.y - 1 > maxYPos))
+            {
+                continue;
+            }
+
+            for (int x = 0; x < itemWidth; x++)
+            {
+                for (int y = 0; y < itemHeight; y++)
+                {
+                    takenSpaces[itemX + x, itemY + y] = true;
+                }
+            }
+            ItemWasFiltered:;
+        }
+        return takenSpaces;
+    }
+
+    public bool ItemCanFitAtPosition(ItemBase item, Vector2 pos)
+    {
+        bool[,] takenSpaces = GetInventoryTakenSpacesMatrix(item); //Filter out our item we're checking from the taken spots matrix.
+
+        int maxXPos = invData.width - 1;
+        int maxYPos = invData.height - 1;
+
+        for (int xWidth = 0; xWidth < item.inventoryDimensions.x; xWidth++)
+        {
+            for (int yHeight = 0; yHeight < item.inventoryDimensions.y; yHeight++)
+            {
+                if ((int)pos.x + xWidth > maxXPos || (int)pos.y + yHeight > maxYPos || (int)pos.x < 0 || (int)pos.y < 0)
+                {
+                    return false;
+                }
+
+                if(takenSpaces[(int)pos.x + xWidth, (int)pos.y + yHeight])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public ItemBase GetItemAtPosition(Vector2 pos)
+    {
+        foreach (ItemBase invItem in inventoryList)
+        {
+            int width = (int)invItem.inventoryDimensions.x - 1;
+            int height = (int)invItem.inventoryDimensions.y - 1;
+            if (pos.x >= invItem.inventoryPosition.x && pos.x <= invItem.inventoryPosition.x + width
+                && pos.y >= invItem.inventoryPosition.y && pos.y <= invItem.inventoryPosition.y + height)
+            {
+                return invItem;
+            }
+        }
+        return null;
     }
 
     public struct inventoryData

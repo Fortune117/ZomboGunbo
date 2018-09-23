@@ -53,12 +53,18 @@ public class InventoryPanel : MonoBehaviour {
         UpdateInventoryUI();
     }
 
-
     public void Close()
     {
         isOpen = false;
         panelCanvasGroup.alpha = 0;
         panelCanvasGroup.interactable = false;
+    }
+
+    public void ReloadUI()
+    {
+        DestroyOldUIGrid();
+        CreateUIGrid();
+        UpdateInventoryUI();
     }
 
     public void DestroyOldUIGrid()
@@ -67,11 +73,6 @@ public class InventoryPanel : MonoBehaviour {
         {
             Destroy(child.gameObject); 
         }
-    }
-
-    public void DestroyOldItemUI()
-    {
-
     }
 
     public void CreateUIGrid()
@@ -104,23 +105,13 @@ public class InventoryPanel : MonoBehaviour {
 
             float xSize = invItem.inventoryDimensions.x * GridCellSize + Mathf.Max(invItem.inventoryDimensions.x - 1, 0) * gridLayout.spacing.x;
             float ySize = invItem.inventoryDimensions.y * GridCellSize + Mathf.Max(invItem.inventoryDimensions.y - 1, 0) * gridLayout.spacing.y;
-            print("X Size: " + xSize);
+
             ItemUI.GetComponent<RectTransform>().sizeDelta = new Vector2(xSize, ySize);
+            ItemUI.GetComponent<InventoryItemUI>().parentItem = invItem;
             ItemUI.GetComponent<InventoryItemUI>().invDimensions = invItem.inventoryDimensions;
             ItemUI.GetComponent<InventoryItemUI>().invPosition = invItem.inventoryPosition;
             ItemUI.GetComponent<InventoryItemUI>().invPanel = this;
         }
     }
 
-    public ItemBase GetItemAtPosition( Vector2 pos )
-    {
-        foreach (ItemBase invItem in inventory.inventoryList)
-        {
-            if (invItem.inventoryPosition == pos )
-            {
-                return invItem;
-            }
-        }
-        return null;
-    }
 }

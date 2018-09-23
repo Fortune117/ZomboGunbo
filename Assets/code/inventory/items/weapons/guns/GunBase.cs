@@ -71,7 +71,6 @@ public class GunBase : ItemBase {
         if (gunData != null)
         {
             InitialiseGunData(); //Reload our gun data from our script.
-            print("uggle wuggle");
         }
 
     }
