@@ -106,9 +106,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invPanel: {fileID: 0}
+  parentItem: {fileID: 0}
   invPosition: {x: 0, y: 0}
   invDimensions: {x: 0, y: 0}
   oldPos: {x: 0, y: 0}
+  oldParent: {fileID: 0}
   clicked: 0
 --- !u!114 &114656236918743910
 MonoBehaviour:

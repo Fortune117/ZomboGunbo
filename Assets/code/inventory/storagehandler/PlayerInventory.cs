@@ -15,7 +15,7 @@ public class PlayerInventory : InventoryBase {
         item2.inventoryPosition = new Vector2(2, 2);
         AddInventoryItemForced(item2);
 
-        invData = new inventoryData(8, 5, 10);
+        invData = new inventoryData(9, 4, 10);
         for (int i = 0; i < 5; i++)
         {
             GunBase item = gameObject.AddComponent<GunBase>();
