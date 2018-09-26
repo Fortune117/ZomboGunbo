@@ -72,8 +72,9 @@
     <Compile Include="Assets\code\hud\InventoryPanel.cs" />
     <Compile Include="Assets\code\hud\PlayerHUD.cs" />
     <Compile Include="Assets\code\inventory\items\ItemBase.cs" />
+    <Compile Include="Assets\code\inventory\items\ItemDataBase.cs" />
     <Compile Include="Assets\code\inventory\items\weapons\guns\GunBase.cs" />
-    <Compile Include="Assets\code\inventory\items\weapons\guns\GunScript.cs" />
+    <Compile Include="Assets\code\inventory\items\weapons\guns\GunData.cs" />
     <Compile Include="Assets\code\inventory\storagehandler\InventoryBase.cs" />
     <Compile Include="Assets\code\inventory\storagehandler\PlayerInventory.cs" />
     <Compile Include="Assets\code\MoveTrail.cs" />
@@ -84,6 +85,7 @@
     <None Include="Assets\sounds\weapons\q009\license.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\sounds\weapons\q009\readme.txt" />
+    <None Include="Assets\planning\todo list.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />

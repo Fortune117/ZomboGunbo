@@ -16,6 +16,9 @@ public abstract class ItemBase : MonoBehaviour{
      * 
      */
 
+    public ItemDataBase itemData; //This is what we're going to be using to store the details of our item data.
+                                  //We'll be able to make these specific to things such as consumables, guns, melee, etc.
+
     public string itemName { get; set; } //The actual diplay name of the item.
 
     public string itemDescription { get; set; } //Description of the Item. We can use this for either info or flavour text.
@@ -30,7 +33,9 @@ public abstract class ItemBase : MonoBehaviour{
 
     public int itemMaxStackSize { get; set; } //The maximum size for a stack of items.
 
-    public Sprite imageSprite { get; set; } //The sprite for the item.
+    public Sprite itemInventoryImage { get; set; } //The sprite for the item while in the inventory.
+
+    public Sprite gameObjectImage { get; set; } //Sprite for the item in the world.
 
     public Vector2 inventoryPosition { get; set; } //The position of the item in the players inventory.
 
@@ -40,20 +45,46 @@ public abstract class ItemBase : MonoBehaviour{
 	// Use this for initialization
 	protected virtual void Start () {
 
-        itemName = "Base Item";
-        itemDescription = "You shouldn't be reading this. If you are, Fortune fucked up.";
-        itemType = "base item type";
-        itemRarity = 5; //Better beleive this shit is exotic. No one should ever have it.
-        itemWeight = 0F;
-        itemCanStack = false;
-        itemMaxStackSize = 1;
-        imageSprite = Resources.Load<Sprite>("Assets/resources/sprites/survivor spine/images/rifle.png");
+        //itemName = "Base Item";
+        //itemDescription = "You shouldn't be reading this. If you are, Fortune fucked up.";
+        //itemType = "base item type";
+        //itemRarity = 5; //Better beleive this shit is exotic. No one should ever have it.
+        //itemWeight = 0F;
+        //itemCanStack = false;
+        //itemMaxStackSize = 1;
 
-        inventoryDimensions = new Vector2(1, 1);
-        //inventoryPosition = new Vector2(-1, -1);
+        //inventoryDimensions = new Vector2(1, 1);
+        ////inventoryPosition = new Vector2(-1, -1);
 
+        InitialiseItemData(); //Load our item data.
         ItemInitialiseInternal(); //We can use these so we don't need to be overwritng the start function.
         ItemInitialise();
+    }
+
+    public virtual void InitialiseItemData()
+    {
+        if (itemData != null)
+        {
+            itemName = itemData.itemName;
+            itemDescription = itemData.itemDescription;
+            itemType = itemData.itemType;
+            itemRarity = itemData.itemRarity;
+            itemWeight = itemData.itemWeight;
+            itemCanStack = itemData.itemCanStack;
+            itemMaxStackSize = itemData.itemMaxStackSize;
+            inventoryDimensions = itemData.inventoryDimesions;
+        }
+        else
+        {
+            Debug.LogWarning("Trying to load item data with a null item data object.");
+        }
+
+    }
+
+    protected void DataThink() //Reload our item data if we update it in the editor.
+    {
+        if (itemData != null && itemData.valid == false)
+            InitialiseItemData();
     }
 
     protected virtual void ItemInitialiseInternal() { }
@@ -61,6 +92,7 @@ public abstract class ItemBase : MonoBehaviour{
 
     protected void Update()
     {
+        DataThink();
         ItemThinkInternal();    //These two methods will be used for each item.
         ItemThink();            //We will need them for some base stuff that all items will need. I have no idea what, but I guess it's useful to have.
     }

@@ -35,6 +35,8 @@ public class Player : Entity
     public GunBase gun;
     public float aimGap;
 
+    public Transform shootPos; 
+
     public PlayerInventory inv;
 
     public PlayerHUD hud;

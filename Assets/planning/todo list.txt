@@ -1,0 +1,28 @@
+Inventory:
+	UI Interface:
+		Display info on item when hovering it.
+		Bring up a menu when right clicking an item.
+		Ability to equip certain items;
+			Quick equip when double clicking the icon.
+		Transfer items between different inventories.
+	Drop items onto the ground, and pick items up.
+	Set up inventory objects you can search.
+	Clean up item base code;
+		Make it easily modular and modifiable.
+	Create different types of base items, e.g. consumables.
+	Figure out how stacking different items should work.
+
+Enemies:
+	Code very basic enemy AI and attacks.
+
+Player:
+	Add sprinting.
+	Add a stamina system (make this quite forgiving);
+		(maybe base it more on environmental factors?)
+	Make it so the gun aims based on which way you're pointing, not where your mouse is.
+	Add weapon switching etc.
+
+Misc
+	Lighting
+	Maps
+

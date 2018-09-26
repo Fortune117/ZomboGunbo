@@ -8,23 +8,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d17d157f9dbd2de4ead5e8824d522092, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c4c1f893a75c414587e20fa6dc606ab, type: 3}
   m_Name: MP5
   m_EditorClassIdentifier: 
-  damage: 24
+  itemName: MP5
+  itemDescription: A favourite weapon of the navy seals.
+  itemType: Submachine Gun
+  itemRarity: 2
+  itemWeight: 10
+  itemCanStack: 0
+  itemMaxStackSize: 1
+  itemInventoryImage: {fileID: 21300000, guid: 913aec507316a724bb1ccee1adc64b28, type: 3}
+  gameObjectImage: {fileID: 21300000, guid: 913aec507316a724bb1ccee1adc64b28, type: 3}
+  inventoryDimesions: {x: 2, y: 1}
+  valid: 1
+  damage: 32
   automatic: 1
-  roundsPerSecond: 13.3
+  roundsPerSecond: 13.33
   maxMagazineSize: 31
-  reloadTime: 2
-  fastReloadSuccessFraction: 0.1
+  reloadTime: 2.5
+  fastReloadSuccessFraction: 0.08
   canFastReload: 1
   fastReloadFailMultiplier: 1.5
   fireConeStartAngle: 50
   fireConeEndAngle: 8
-  aimTime: 1.7
-  fireConeAnglePunchOnShot: 1
-  fireConeDelayOnShot: 0.2
-  traumaValueOnFire: 0.05
-  inventoryDimensions: {x: 1, y: 2}
-  BulletTrailPrefab: {fileID: 0}
-  valid: 1
+  aimTime: 3.2
+  fireConeAnglePunchOnShot: 6
+  fireConeDelayOnShot: 0.3
+  traumaValueOnFire: 0.1
+  BulletTrailPrefab: {fileID: 1256087956776702, guid: e637309a1e3534b4798cbf639a61a9e2,
+    type: 2}

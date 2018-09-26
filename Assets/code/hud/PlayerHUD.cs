@@ -13,6 +13,8 @@ public class PlayerHUD : MonoBehaviour {
     public Image aimBar2;
     private float bar2Length;
 
+    public Transform shootPos;
+
     public Text ammoText;
     public Image reloadBarOutline; //The outline for the bar.
     public Image reloadBar; //The reload bar.
@@ -33,8 +35,7 @@ public class PlayerHUD : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        bar1Length = (aimBar1.sprite.bounds.size.x);
-        bar2Length = (aimBar2.sprite.bounds.size.x);
+
     }
 
     public static Vector2 RadianToVector2(float radian)
@@ -64,11 +65,11 @@ public class PlayerHUD : MonoBehaviour {
             aimBar2.enabled = true;
 
             float bar1Angle = ply.GetAimDirAngles() * Mathf.Rad2Deg + 90 + ply.gun.GetFireConeAngle() / 2;
-            aimBar1.transform.position = (Vector2)ply.transform.position + ply.GetAimDir()*ply.aimGap + DegreeToVector2(bar1Angle) * bar1Length / 4;
+            aimBar1.transform.position = (Vector2)shootPos.position;
             aimBar1.transform.rotation = Quaternion.Euler(0, 0, bar1Angle);
 
             float bar2Angle = ply.GetAimDirAngles() * Mathf.Rad2Deg + 90 - ply.gun.GetFireConeAngle() / 2;
-            aimBar2.transform.position = (Vector2)ply.transform.position + ply.GetAimDir()*ply.aimGap + DegreeToVector2(bar2Angle) * bar2Length / 4;
+            aimBar2.transform.position = (Vector2)shootPos.position;
             aimBar2.transform.rotation = Quaternion.Euler(0, 0, bar2Angle);
         }
         else

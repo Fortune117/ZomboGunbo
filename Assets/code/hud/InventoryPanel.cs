@@ -37,20 +37,20 @@ public class InventoryPanel : MonoBehaviour {
 
     public void Open()
     {
+        transform.localPosition = Vector2.zero;
         isOpen = true;
         panelCanvasGroup.alpha = 1;
         panelCanvasGroup.interactable = true;
 
-        if (inventory.invData.width != lastWidth || inventory.invData.height != lastHeight)
-        {
-            DestroyOldUIGrid();
-            CreateUIGrid();
+        //if (inventory.invData.width != lastWidth || inventory.invData.height != lastHeight)
+        //{
+        //    DestroyOldUIGrid();
+        //    CreateUIGrid();
 
-            lastWidth = inventory.invData.width;
-            lastHeight = inventory.invData.height;
-        }
-
-        UpdateInventoryUI();
+        //    lastWidth = inventory.invData.width;
+        //    lastHeight = inventory.invData.height;
+        //}
+        ReloadUI();
     }
 
     public void Close()

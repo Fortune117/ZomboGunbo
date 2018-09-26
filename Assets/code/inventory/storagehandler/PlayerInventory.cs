@@ -10,8 +10,8 @@ public class PlayerInventory : InventoryBase {
     protected override void Initialise()
     {
         GunBase item2 = gameObject.AddComponent<GunBase>();
-        item2.gunData = Resources.Load("MP5") as GunScript;
-        item2.InitialiseGunData();
+        item2.itemData = Resources.Load("MP5") as GunData;
+        item2.InitialiseItemData();
         item2.inventoryPosition = new Vector2(2, 2);
         AddInventoryItemForced(item2);
 
@@ -19,8 +19,8 @@ public class PlayerInventory : InventoryBase {
         for (int i = 0; i < 5; i++)
         {
             GunBase item = gameObject.AddComponent<GunBase>();
-            item.gunData = Resources.Load("MP5") as GunScript;
-            item.InitialiseGunData();
+            item.itemData = Resources.Load("MP5") as GunData;
+            item.InitialiseItemData();
             testItems.Add(item);
         }
     }

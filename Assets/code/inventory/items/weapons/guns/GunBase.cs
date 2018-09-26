@@ -46,10 +46,8 @@ public class GunBase : ItemBase {
     public float bulletEffectGap;
     public Transform BulletTrailPrefab;
 
-    public Vector2 firePos;
     public Player ply;
 
-    public GunScript gunData;
 
     protected override void Start()
     {
@@ -62,23 +60,16 @@ public class GunBase : ItemBase {
         reloadStartTime = 0;
         attemptedFastReload = false;
 
-        InitialiseGunData(); //Load our gun data.
-
     }
 
-    public void OnValidate()
-    {   
-        if (gunData != null)
-        {
-            InitialiseGunData(); //Reload our gun data from our script.
-        }
 
-    }
-
-    public void InitialiseGunData()
+    public override void InitialiseItemData()
     {
-        if(gunData != null)
+        base.InitialiseItemData();
+        if(itemData != null)
         {
+            GunData gunData = (GunData)itemData;
+
             damage = gunData.damage;
             automatic = gunData.automatic;
             roundsPerSecond = gunData.roundsPerSecond;
@@ -96,7 +87,6 @@ public class GunBase : ItemBase {
             fireConeAnglePunchOnShot = gunData.fireConeAnglePunchOnShot;
             traumaValueOnFire = gunData.traumaValueOnFire;
             fireConeDelayOnShot = gunData.fireConeDelayOnShot;
-            inventoryDimensions = gunData.inventoryDimensions;
             gunData.valid = true;
         }
     }
@@ -104,6 +94,7 @@ public class GunBase : ItemBase {
     //Aiming is what happens when the player holds down mouse 2, by default. This will allow us to do some fancy shit.
     public void StartAiming() //This function is called when the player starts aiming.
     {
+        print(itemName);
         isAiming = true;
         fireConeAngle = fireConeStartAngle;
         aimStartTime = Time.time;
@@ -150,16 +141,8 @@ public class GunBase : ItemBase {
 
     protected override void ItemThink()
     {
-        DataThink();
         AimThink();
         ReloadThink();
-
-    }
-
-    protected void DataThink()
-    {
-        if (gunData != null && gunData.valid == false)
-            InitialiseGunData();
     }
 
     protected void AimThink()
@@ -238,9 +221,36 @@ public class GunBase : ItemBase {
         GameObject.FindObjectOfType<AudioManager>().Play(fireSounds[Random.Range(0, fireSounds.Length)]);
     }
 
+    public static Vector2 RadianToVector2(float radian)
+    {
+        return new Vector2(Mathf.Cos(radian), Mathf.Sin(radian));
+    }
+
+    public static Vector2 DegreeToVector2(float degree)
+    {
+        return RadianToVector2(degree * Mathf.Deg2Rad);
+    }
+
     public void FireBullet( float angle )
     {
+        // Bit shift the index of the layer (8) to get a bit mask
+        int playerMask = 1 << 8;
 
+        // This would cast rays only against colliders in layer 8.
+        // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
+        playerMask = ~playerMask;
+
+        Vector2 rotatedVector = DegreeToVector2(angle);
+        Debug.DrawRay(ply.shootPos.position, rotatedVector*100, Color.white, 2F);
+        RaycastHit2D hitInfo = Physics2D.Raycast(ply.shootPos.position, rotatedVector, 100, playerMask);
+        if(hitInfo)
+        {
+            Debug.Log(hitInfo.transform.name);
+            if(hitInfo.transform.GetComponent<Entity>())
+            {
+                hitInfo.transform.GetComponent<Entity>().TakeDamage(damage);
+            }
+        }
     }
 
     public virtual bool CanReload()

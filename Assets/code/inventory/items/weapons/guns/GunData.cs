@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Gun", menuName = "Gun")]
-public class GunScript : ScriptableObject {
+public class GunData : ItemDataBase {
 
     [Header("Firing and Damage")]
     public float damage;
@@ -32,19 +32,7 @@ public class GunScript : ScriptableObject {
     public float traumaValueOnFire;
 
     [Space]
-    [Header("Inventory Data")]
-    public Vector2 inventoryDimensions;
-
-    [Space]
     [Header("Prefabs")]
     public GameObject BulletTrailPrefab;
-
-    [HideInInspector]
-    public bool valid = false;
-
-    public void OnValidate()
-    {
-        valid = false;
-    }
 
 }

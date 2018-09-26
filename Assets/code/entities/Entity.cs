@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))] //All entities will be required to have a collider. We may not use it, but it should be there.
+[RequireComponent(typeof(CircleCollider2D))] //All entities will be required to have a collider. We may not use it, but it should be there.
 public abstract class Entity : MonoBehaviour {
 
     public Vector2 velocity { get; set; }
@@ -28,7 +28,7 @@ public abstract class Entity : MonoBehaviour {
 
     public bool canDie { get; set; } //Entities can't die by default. Yay? We'll probably overwrite this in just about everything.
 
-    new public BoxCollider2D collider; //The collider we will be using for our entities. 
+    public CircleCollider2D collider; //The collider we will be using for our entities. 
 
     public void AddVelocity(Vector2 vel) //Add to the objects velocity, without overwriting it.
     {
@@ -75,14 +75,15 @@ public abstract class Entity : MonoBehaviour {
 
     }
 
-    public virtual void TakeDamage() //This is going to be used when entities take damage. We're going to need to make a DamageInfo class, or similar, so that we can handle it properly.
+    public virtual void TakeDamage(float damage) //This is going to be used when entities take damage. We're going to need to make a DamageInfo class, or similar, so that we can handle it properly.
     {
         OnDamageReceived(); //We call this before we apply the effects of taking damage (e.g. health decrease). Doing so lets us use it for resistances and similar, e.g. bullet vest, explosive vest, etc.
-        ApplyDamage(); //Actually deal the damage to the entity.
+        ApplyDamage(damage); //Actually deal the damage to the entity.
     }
 
-    protected virtual void ApplyDamage()
+    protected virtual void ApplyDamage(float damage)
     {
+        health -= damage;
         if (health <= 0)
         {
             if (canDie)
@@ -113,7 +114,7 @@ public abstract class Entity : MonoBehaviour {
     }
 
 	protected void Start () {
-        collider = GetComponent<BoxCollider2D>(); //All entities will need a collider, and we can make some useful functions for when entities load.
+        collider = GetComponent<CircleCollider2D>(); //All entities will need a collider, and we can make some useful functions for when entities load.
 
         health = maxHealth = startHealth;
         mass = 1;

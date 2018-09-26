@@ -977,7 +977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8867924, g: 0.46431112, b: 0.46431112, a: 1}
+  m_Color: {r: 0.5801887, g: 0.7611947, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1091,6 +1091,7 @@ MonoBehaviour:
   ply: {fileID: 114242683076665224}
   aimBar1: {fileID: 114532435244966018}
   aimBar2: {fileID: 114062904363285106}
+  shootPos: {fileID: 4576262116797442}
   ammoText: {fileID: 114931828276312592}
   reloadBarOutline: {fileID: 114240411706070550}
   reloadBar: {fileID: 114834368744259262}
@@ -1572,7 +1573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8867924, g: 0.46431112, b: 0.46431112, a: 1}
+  m_Color: {r: 0.5803922, g: 0.7607843, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1731,7 +1732,6 @@ MonoBehaviour:
   bulletEffectGap: 1
   BulletTrailPrefab: {fileID: 4311143684953152, guid: e637309a1e3534b4798cbf639a61a9e2,
     type: 2}
-  firePos: {x: 0, y: 0}
   ply: {fileID: 114242683076665224}
   gunData: {fileID: 11400000, guid: 37f3c9567f9f73e489595f45276d02f9, type: 2}
 --- !u!114 &114931828276312592
@@ -2703,18 +2703,18 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951199948351734}
-  m_LocalRotation: {x: -0, y: -0, z: 0.9992122, w: 0.039685868}
+  m_LocalRotation: {x: -0, y: -0, z: 0.99886876, w: -0.047552213}
   m_LocalPosition: {x: 0, y: 0, z: -4778.6265}
-  m_LocalScale: {x: 0.99979484, y: 0.99979484, z: 0.99979484}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224134571127819716}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -396.96454, y: 31.582422}
+  m_AnchoredPosition: {x: 377.63437, y: 36.03705}
   m_SizeDelta: {x: 758.7, y: 15}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!224 &224431726862769882
 RectTransform:
   m_ObjectHideFlags: 1
@@ -2881,9 +2881,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -396.41797, y: -37.82954}
+  m_AnchoredPosition: {x: 370.79547, y: 35.38436}
   m_SizeDelta: {x: 758.7, y: 15}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.0090538785, y: 0.49999994}
 --- !u!224 &224741190572457480
 RectTransform:
   m_ObjectHideFlags: 1
@@ -2918,7 +2918,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 393.8003}
+  m_AnchoredPosition: {x: -0.000030517578, y: 393.8003}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224849862611718500
